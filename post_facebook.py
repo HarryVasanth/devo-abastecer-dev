@@ -21,6 +21,7 @@ ACCESS_TOKEN = os.environ["FACEBOOK_ACCESS_TOKEN"]
 
 GRAPH_API_URL = "https://graph.facebook.com/v22.0"
 
+
 def gas_prices_message(price_current, price_previous):
     if price_current > price_previous:
         return f"{price_current}€   ⬆️   {price_previous}€"
@@ -28,6 +29,7 @@ def gas_prices_message(price_current, price_previous):
         return f"{price_current}€   ⬇️️   {price_previous}€"
     if price_current == price_previous:
         return f"{price_current}€   =   {price_previous}€"
+
 
 def post_text_to_facebook(message):
     """
