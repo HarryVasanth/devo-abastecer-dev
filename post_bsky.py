@@ -16,8 +16,8 @@ from constants import (
 )
 
 
-def create_bluesky_client():
-    return Client(base_url="https://bsky.social")
+def create_client_bluesky():
+    return Client()
 
 
 def gas_prices_message(price_current, price_previous):
@@ -29,13 +29,26 @@ def gas_prices_message(price_current, price_previous):
         return f"{price_current}€   =   {price_previous}€"
 
 
-def post_sky(text):
-    client = create_bluesky_client()
+def post_image(post, image_path):
+    # Get Bluesky client
+    client = create_client_bluesky()
+    # Login using environment variables
     client.login(os.environ["BLUESKY_HANDLE"], os.environ["BLUESKY_APP_PASSWORD"])
-    return client.send_post(text)
+    # Upload image
+    with open(image_path, "rb") as f:
+        image_data = f.read()
+    image = client.upload_blob(image_data, content_type="image/jpeg")
+    # Post with image
+    return client.send_post(post, image=image)
+    print(f"Post created successfully. URI: {post.uri}")
 
 
-def make_sky_post(dict_prices):
+def make_bsky_post(dict_prices):
+    # Get Bluesky client
+    client = create_client_bluesky()
+    # Login using environment variables
+    client.login(os.environ["BLUESKY_HANDLE"], os.environ["BLUESKY_APP_PASSWORD"])
+    # Format post
     post_message = "— Devo abastecer? ⛽️ \n\n"
     post_message += f"         {dict_prices[CURRENT_WEEK][START_DATE_KEY]}  |  {dict_prices[PREVIOUS_WEEK][START_DATE_KEY]}\n"
     post_message += "                      a         |            a\n"
@@ -43,5 +56,6 @@ def make_sky_post(dict_prices):
     post_message += f"{DIESEL_TW}{gas_prices_message(dict_prices[CURRENT_WEEK][GAS_KEY][DIESEL], dict_prices[PREVIOUS_WEEK][GAS_KEY][DIESEL])}\n"
     post_message += f"{GASOLINE_95_TW}{gas_prices_message(dict_prices[CURRENT_WEEK][GAS_KEY][GASOLINE_95], dict_prices[PREVIOUS_WEEK][GAS_KEY][GASOLINE_95])}\n"
     post_message += f"{GASOLINE_98_TW}{gas_prices_message(dict_prices[CURRENT_WEEK][GAS_KEY][GASOLINE_98], dict_prices[PREVIOUS_WEEK][GAS_KEY][GASOLINE_98])}\n"
-
-    post_sky(post_message)
+    # Post to Bluesky
+    return client.send_post(post_message)
+    print(f"Post created successfully. URI: {post.uri}")
