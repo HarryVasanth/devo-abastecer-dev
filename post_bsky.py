@@ -29,13 +29,13 @@ def gas_prices_message(price_current, price_previous):
         return f"{price_current}€   =   {price_previous}€"
 
 
-def post_bsky(text):
+def post_sky(text):
     client = create_bluesky_client()
     client.login(os.environ["BLUESKY_HANDLE"], os.environ["BLUESKY_APP_PASSWORD"])
     return client.send_post(text)
 
 
-def make_sky_post(dbict_prices):
+def make_sky_post(dict_prices):
     post_message = "— Devo abastecer? ⛽️ \n\n"
     post_message += f"         {dict_prices[CURRENT_WEEK][START_DATE_KEY]}  |  {dict_prices[PREVIOUS_WEEK][START_DATE_KEY]}\n"
     post_message += "                      a         |            a\n"
