@@ -29,7 +29,7 @@ def gas_prices_message(price_current, price_previous):
         return f"{price_current}€   =   {price_previous}€"
 
 
-def post_image(post, image_path):
+def make_bsky_post_image(post, image_path):
     # Get Bluesky client
     client = create_client_bluesky()
     # Login using environment variables

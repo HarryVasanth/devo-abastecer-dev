@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
 import pandas as pd
 
+from post_bsky import make_bsky_post_image
+
 from constants import (
     CURRENT_GAS_HISTORY_CSV_FILE,
     CURRENT_GAS_HISTORY_PLOT_FILE,
@@ -56,3 +58,9 @@ def generate_plot_history(plot_path):
 
 # Generate history plot
 start_date, end_date, _ = generate_plot_history(CURRENT_GAS_HISTORY_PLOT_FILE)
+
+# Post to Bluesky
+make_bsky_post_image(
+    f"📊 Preços dos combustíveis de {start_date.strftime('%d %b')} a {end_date.strftime('%d %b')}",
+    CURRENT_GAS_HISTORY_PLOT_FILE,
+)
