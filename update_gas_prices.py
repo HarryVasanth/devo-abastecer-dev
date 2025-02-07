@@ -69,7 +69,7 @@ if update:
     )
 
     # Make tweet
-    make_tweet(dict_prices)
+    #make_tweet(dict_prices)
     make_bsky_post(dict_prices)
     # Add history
     add_history(dict_prices)
